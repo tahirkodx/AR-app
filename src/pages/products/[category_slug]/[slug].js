@@ -545,9 +545,24 @@ function Products(props) {
         </Modal.Header>
         <Modal.Body>
           <div >
-          <Col lg={12} md={12} sm={12} xs={12}>
-                <p>Textures</p>
+          {/* <Col lg={12} md={12} sm={12} xs={12}>
+              
+                </Col> */}
+            <model-viewer
+              src={modelUrl}
+              id="arModel"
+              camera-controls
+              ar-placement="wall"
+              touch-action="none"
+              ar
+              orientation="0 0 0" shadow-intensity="1"
+              interaction-prompt-style
+              
+              alt="A 3D model of a arModel"
+              style={{ width: '100%', height: '400px' }}
+            >
               <div className="controls" style={{marginTop: "10px"}}>
+              <p>Textures</p>
                 <select className="form-select" id="normals2" onChange={changeTexture}>
                   <option>None</option>
                   <option value="https://uatapi.sedarglobal.com/uploads/100001/item/customize/1671627645_f8f322dc568482793da5.jpg">texture1</option>
@@ -580,21 +595,6 @@ function Products(props) {
 
         
               </div>
-                </Col>
-            <model-viewer
-              src={modelUrl}
-              id="arModel"
-              camera-controls
-              ar-placement="wall"
-              touch-action="none"
-              ar
-              orientation="0 0 0" shadow-intensity="1"
-              interaction-prompt-style
-              
-              alt="A 3D model of a arModel"
-              style={{ width: '100%', height: '400px' }}
-            >
-              
             </model-viewer>
           </div>
         </Modal.Body>
