@@ -150,7 +150,7 @@ const nextConfig = {
   i18n,
   suppressHydrationWarning: false,
   compress: true,
-  output: 'export',
+  // output: 'export',
   images: {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     domains: ["ssrapi.sedarglobal.com", "api.sedarglobal.com", "uatapi.sedarglobal.com", "dxbapi.sedarglobal.com"],
