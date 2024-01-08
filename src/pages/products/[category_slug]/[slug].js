@@ -135,16 +135,16 @@ function Products(props) {
   const handleClose = () => setShow(false);
   //   const handleShow = () => setShow(true);
   const updateModelSize = (e, type) => {
-     let width = value;
-     let height = heightValue;
-     let z = 2;
-    if(type == 'both'){
+    let width = value;
+    let height = heightValue;
+    let z = 2;
+    if (type == "both") {
       width = 1;
       height = 1;
       z = 1;
-      setWidthValue(1)
+      setWidthValue(1);
       setHeightValue(1);
-    } else if(type == 'width'){
+    } else if (type == "width") {
       width = e.target.value;
       setWidthValue(e.target.value);
       z = 2;
@@ -153,11 +153,10 @@ function Products(props) {
       setHeightValue(e.target.value);
       z = 2;
     }
-    console.log(width, height, z)
+    console.log(width, height, z);
     const modelViewerTransform = document.querySelector("model-viewer#arModel");
     // x axis then y axis
     modelViewerTransform.scale = `${width} ${height} ${z}`;
-    
   };
 
   const handleShow = (value) => {
@@ -184,12 +183,27 @@ function Products(props) {
     //   }
     // });
   };
+
+  //   async function downloadAndCreateUrl(imageUrl) {
+  //     try {
+  //         const response = await fetch(imageUrl);
+  //         if (!response.ok) throw new Error('Image fetching failed');
+  //         const imageBlob = await response.blob();
+  //         const localUrl = URL.createObjectURL(imageBlob);
+  //         return localUrl;
+  //     } catch (error) {
+  //         console.error('Error occurred:', error);
+  //     }
+  // }
+
   const changeTexture = (event) => {
     const modelViewerTexture = document.querySelector("model-viewer#arModel");
     console.log(modelViewerTexture);
-    createAndApplyTexture("baseColorTexture", event);
+    createAndApplyTexture(
+      "baseColorTexture",
+      "https://uatapi.sedarglobal.com/uploads/100001/item/customize/1671627645_f8f322dc568482793da5.jpg"
+    );
   };
-
   const createAndApplyTexture = async (channel, value) => {
     const modelViewerTexture = document.querySelector("model-viewer#arModel");
     const material = modelViewerTexture.model.materials[0];
@@ -585,7 +599,16 @@ function Products(props) {
             >
               <Button
                 slot="ar-button"
-                style={{backgroundColor: 'white', borderRadius: '4px', border: 'none', display: 'block !important', color: 'black', position: 'absolute', top: '16px', right: '16px' }}
+                style={{
+                  backgroundColor: "white",
+                  borderRadius: "4px",
+                  border: "none",
+                  display: "block !important",
+                  color: "black",
+                  position: "absolute",
+                  top: "16px",
+                  right: "16px",
+                }}
               >
                 👋 Activate AR
               </Button>
@@ -659,8 +682,8 @@ function Products(props) {
                                               step={0.001}
                                               min={0}
                                               max={200}
-                                              onChange={(e) =>{
-                                                updateModelSize(e,'width');
+                                              onChange={(e) => {
+                                                updateModelSize(e, "width");
                                               }}
                                               tooltipLabel={(currentValue) =>
                                                 `${currentValue} cm`
@@ -680,7 +703,7 @@ function Products(props) {
                                               max={200}
                                               step={0.001}
                                               onChange={(e) => {
-                                                updateModelSize(e,'height');
+                                                updateModelSize(e, "height");
                                               }}
                                               tooltipLabel={(currentValue) =>
                                                 `${currentValue} cm`
@@ -692,9 +715,12 @@ function Products(props) {
                                       </Row>
                                     </div>
                                     <div className="size-pane-right">
-                                      <button className="size-refresh" onClick={(e) => {
-                                                updateModelSize(e,'both');
-                                              }}>
+                                      <button
+                                        className="size-refresh"
+                                        onClick={(e) => {
+                                          updateModelSize(e, "both");
+                                        }}
+                                      >
                                         <img
                                           src="/assets/images/rotate-left.svg"
                                           alt="refresh"
