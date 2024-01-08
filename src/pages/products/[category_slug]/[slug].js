@@ -156,7 +156,11 @@ function Products(props) {
     console.log(width, height, z);
     const modelViewerTransform = document.querySelector("model-viewer#arModel");
     // x axis then y axis
-    modelViewerTransform.scale = `${width} ${height} ${z}`;
+    if(type == "both"){
+      modelViewerTransform.scale = `${width} ${height} ${z}`;
+    } else {
+      modelViewerTransform.scale = `${width/30} ${height/30} ${z}`;
+    }
   };
 
   const handleShow = (value) => {
@@ -589,7 +593,7 @@ function Products(props) {
               camera-controls
               // ar-placement="wall"
               // touch-action="none"
-              // touch-action="pan-y"
+              touch-action="pan-y"
               ar
               orientation="0 0 0"
               shadow-intensity="1"
@@ -672,16 +676,16 @@ function Products(props) {
                                   <div className="size-pane-inner">
                                     <div className="size-pane-left">
                                       <Row>
-                                        <Col lg={6} md={6} sm={6} xs={6}>
+                                        <Col lg={12} md={12} sm={12} xs={12}>
                                           <div className="size-slider">
                                             <p className="size-label">Width</p>
                                             {/* <Form.Range /> */}
                                             {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
                                             <RangeSlider
                                               value={value}
-                                              step={0.001}
-                                              min={0}
-                                              max={200}
+                                              // step={1}
+                                              // min={0}
+                                              // max={1000}
                                               onChange={(e) => {
                                                 updateModelSize(e, "width");
                                               }}
@@ -692,16 +696,16 @@ function Products(props) {
                                             />
                                           </div>
                                         </Col>
-                                        <Col lg={6} md={6} sm={6} xs={6}>
+                                        <Col lg={12} md={12} sm={12} xs={12}>
                                           <div className="size-slider">
                                             <p className="size-label">Height</p>
                                             {/* <Form.Range /> */}
                                             {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
                                             <RangeSlider
                                               value={heightValue}
-                                              min={0}
-                                              max={200}
-                                              step={0.001}
+                                              // min={0}
+                                              // max={1000}
+                                              // step={0.00001}
                                               onChange={(e) => {
                                                 updateModelSize(e, "height");
                                               }}
