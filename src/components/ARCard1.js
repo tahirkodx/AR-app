@@ -88,7 +88,7 @@ const ARCard1 = ({ styles }) => {
 export default ARCard1;
 
 ARCard1.defaultProps = {
-  glbLink: '../assets/Roller2.glb',
+  glbLink: 'https://uatapi.sedarglobal.com/uploads/100001/obj/android/Update_CS_LRM_Louvo_011.glb',
   usdzLink: '../assets/RB.usdz',
   // img: '../assets/Roller.jpg',
   loading: 'eager',
