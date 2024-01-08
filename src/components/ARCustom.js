@@ -100,8 +100,8 @@ const ARCustom = ({ show, tabProps, colorList, value, heightValue, currentColor 
         AR View
       </span> */}
       {/* model */}
-      {!show ? "" : (
-      <div className="visibility-none">
+      {/* {!show ? "" : ( */}
+      <div className="hidden" style={{display: 'none'}}>
             {/* <Col lg={12} md={12} sm={12} xs={12}>
               
                 </Col> */}
@@ -126,7 +126,7 @@ const ARCustom = ({ show, tabProps, colorList, value, heightValue, currentColor 
               >
                 👋 Activate AR
               </Button>
-              <div className="controls" style={{ marginTop: "200px" }}>
+              <div className="controls">
                 <div className="select-product-middle">
                   <div className="select-product-inner">
                     <div className="select-product-bottom">
@@ -286,7 +286,8 @@ const ARCustom = ({ show, tabProps, colorList, value, heightValue, currentColor 
             </model-viewer>
           </div>
 
-          )}    </>
+          {/* )}    */}
+           </>
   );
 };
 
