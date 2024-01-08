@@ -5,8 +5,14 @@ import {
   Image,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Tab from "react-bootstrap/Tab";
+import Nav from "react-bootstrap/Nav";
+import { Swiper, SwiperSlide } from "swiper/react";
+import RangeSlider from "react-bootstrap-range-slider";
 
-const ARCustom = () => {
+const ARCustom = ({ show, tabProps, colorList, value, heightValue, currentColor }) => {
   const arButton = useRef({});
 
   const [modelUrl, setModelUrl] = useState("");
@@ -16,7 +22,7 @@ const ARCustom = () => {
   const [yVal, setY] = useState(1);
 
   // model set
-  const [show, setShow] = useState(false);
+//   const [show, setShow] = useState(false);
 
   const handleShow = (value) => {
     console.log(value);
@@ -31,7 +37,7 @@ const ARCustom = () => {
       );
       setLoadModelAR(value);
     }
-    setShow(true);
+    // setShow(true);
     // const modelViewerTexture = document.querySelector("model-viewer#arModel");
     // console.log(modelViewerTexture)
     // modelViewerTexture.addEventListener("load", () => {
@@ -74,45 +80,179 @@ const ARCustom = () => {
     }
   };
 
-  const handleClose = () => setShow(false);
+  
+  React.useEffect(() => {
+    setTimeout(() => {
+      if (show) {
+        arButton.current.click();
+      }
+    }, 1000);
+  }, [show]);
+
+//   const handleClose = () => setShow(false);
+
   return (
     <>
-      <span
+      {/* <span
         onClick={(e) => handleShow("android")}
         className="text-link ar_tour_view"
       >
         AR View
-      </span>
+      </span> */}
       {/* model */}
-      <Modal show={show} onHide={handleClose}
-      size="lg"
-      aria-labelledby="example-modal-sizes-title-lg"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="example-modal-sizes-title-lg" >AR Model</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div >
-          {/* <Col lg={12} md={12} sm={12} xs={12}>
+      {!show ? "" : (
+      <div className="visibility-none">
+            {/* <Col lg={12} md={12} sm={12} xs={12}>
               
                 </Col> */}
             <model-viewer
               src={modelUrl}
               id="transform"
               camera-controls
-              ar-placement="wall"
+              // ar-placement="wall"
               // touch-action="none"
               // touch-action="pan-y"
               ar
-              orientation="20deg 0 0" 
+              orientation="0 0 0"
               shadow-intensity="1"
               interaction-prompt-style
-              
               alt="A 3D model of a arModel"
-              style={{ width: '100%', height: '400px' }}
+              style={{ width: "100%", height: "900px" }}
             >
-              <div className="controls" style={{marginTop: "300px"}}>
-              <p>Textures</p>
+              <Button
+                slot="ar-button"
+                ref={arButton}
+                style={{backgroundColor: 'white', borderRadius: '4px', border: 'none', display: 'block !important', color: 'black', position: 'absolute', top: '16px', right: '16px' }}
+              >
+                👋 Activate AR
+              </Button>
+              <div className="controls" style={{ marginTop: "200px" }}>
+                <div className="select-product-middle">
+                  <div className="select-product-inner">
+                    <div className="select-product-bottom">
+                      <div className="product-bottom-content">
+                        <Tab.Container
+                          id="left-tabs-example"
+                          defaultActiveKey="color"
+                        >
+                          <Row>
+                            <Col sm={12} className="bottom-border">
+                              <Nav className="product-bottom-tab">
+                                <Nav.Item>
+                                  <Nav.Link eventKey="color">Color</Nav.Link>
+                                </Nav.Item>
+                                {/* <Nav.Item>
+                                                <Nav.Link eventKey="material">Material</Nav.Link>
+                                            </Nav.Item> */}
+                                <Nav.Item>
+                                  <Nav.Link eventKey="size">Size</Nav.Link>
+                                </Nav.Item>
+                              </Nav>
+                            </Col>
+                            <Col sm={12} className="bottom-border">
+                              <Tab.Content className="product-tab-content">
+                                <Tab.Pane eventKey="color">
+                                  <div className="color-pane-inner">
+                                    <Swiper
+                                      className="product-color-slider"
+                                      {...tabProps}
+                                    >
+                                      {colorList?.map((color, index) => (
+                                        <SwiperSlide key={color?.id}>
+                                          <div
+                                            className={`product-color-item ${
+                                              currentColor?.id === color?.id
+                                                ? "active"
+                                                : ""
+                                            }`}
+                                            onClick={() =>
+                                              findColorImage(color)
+                                            }
+                                          >
+                                            {/* <span style={{ backgroundColor: "#4D111C" }} /> */}
+                                            <Image
+                                              src={color?.path}
+                                              alt="color"
+                                              height={48}
+                                              width={48}
+                                            />
+                                          </div>
+                                        </SwiperSlide>
+                                      ))}
+                                    </Swiper>
+                                  </div>
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="size">
+                                  <div className="size-pane-inner">
+                                    <div className="size-pane-left">
+                                      <Row>
+                                        <Col lg={6} md={6} sm={6} xs={6}>
+                                          <div className="size-slider">
+                                            <p className="size-label">Width</p>
+                                            {/* <Form.Range /> */}
+                                            {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
+                                            <RangeSlider
+                                              value={value}
+                                              onChange={(e) =>
+                                                setWidthValue(e.target.value)
+                                              }
+                                              tooltipLabel={(currentValue) =>
+                                                `${currentValue} cm`
+                                              }
+                                              tooltip="on"
+                                            />
+                                          </div>
+                                        </Col>
+                                        <Col lg={6} md={6} sm={6} xs={6}>
+                                          <div className="size-slider">
+                                            <p className="size-label">Height</p>
+                                            {/* <Form.Range /> */}
+                                            {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
+                                            <RangeSlider
+                                              value={heightValue}
+                                              onChange={(e) =>
+                                                setHeightValue(e.target.value)
+                                              }
+                                              tooltipLabel={(currentValue) =>
+                                                `${currentValue} cm`
+                                              }
+                                              tooltip="on"
+                                            />
+                                          </div>
+                                        </Col>
+                                      </Row>
+                                    </div>
+                                    <div className="size-pane-right">
+                                      <button className="size-refresh">
+                                        <img
+                                          src="/assets/images/rotate-left.svg"
+                                          alt="refresh"
+                                        />
+                                      </button>
+                                    </div>
+                                  </div>
+                                </Tab.Pane>
+                              </Tab.Content>
+                            </Col>
+                          </Row>
+                        </Tab.Container>
+                      </div>
+                      {/* <div className="product-fotter-section">
+              <div className="product-addcart-btn">
+                <Link href="#" className="btn btn-primary w-sm-100">
+                  Add to Cart - USD 200.00
+                </Link>
+              </div>
+              <div className="product-link-share">
+                <Link href="#">
+                  <img src="/assets/images/share-icon.svg" alt="share" />
+                </Link>
+              </div>
+            </div> */}
+                    </div>
+                  </div>
+                </div>
+                {/* <p>Textures</p>
                 <select className="form-select" id="normals2" onChange={changeTexture}>
                   <option>None</option>
                   <option value="https://uatapi.sedarglobal.com/uploads/100001/item/customize/1671627645_f8f322dc568482793da5.jpg">texture1</option>
@@ -141,23 +281,12 @@ const ARCustom = () => {
                 </div>
                 <div className="item-img-code">
                     <span id="frame" onClick={updateModelSize} className="text-link ar_tour_view btn btn-primary w-sm-100">Update Size</span>
-                </div>
-
-        
+                </div> */}
               </div>
             </model-viewer>
           </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          {/* <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button> */}
-        </Modal.Footer>
-      </Modal>
-    </>
+
+          )}    </>
   );
 };
 
