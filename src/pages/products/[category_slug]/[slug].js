@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import shortid from "shortid";
@@ -115,6 +115,8 @@ export async function getServerSideProps(context) {
 
 function Products(props) {
   Cookies.set("arShow", false);
+  const arModelViewer = useRef({});
+
   const { tabProps, productsList, productObject, category_slug, slug } = props;
   const androidObjectPath =
     productObject?.COMPONENT[0]?.PARENT?.CHILD[0]?.OBJ_PATH_ANDROID;
@@ -135,27 +137,31 @@ function Products(props) {
   const handleClose = () => setShow(false);
   //   const handleShow = () => setShow(true);
   const updateModelSize = (e, type) => {
+  
+
      let width = value;
      let height = heightValue;
-    if(type == 'width'){
+     if(type == 'both'){
+      width = 1;
+      height = 1;
+     } else if(type == 'width'){
       width = e.target.value;
       setWidthValue(e.target.value);
     } else {
       height = e.target.value;
       setHeightValue(e.target.value);
     }
-    let z = 2;
-    const modelViewerTransform = document.querySelector("model-viewer#arModel");
-    console.log(modelViewerTransform.scale)
-    const frame = document.querySelector("#frame");
-    if (modelViewerTransform) {
-      modelViewerTransform.updateFraming();
-    }
-    // const updateScale = () => {
+    let z = 1;
+    console.log(arModelViewer.current.scale)
+    // const modelViewerTransform = window.document.querySelector("model-viewer#arModel");
+    // const frame = document.querySelector("#frame");
+    // if (modelViewerTransform) {
+    //   modelViewerTransform.updateFraming();
+    // }
+
       // x axis then y axis
-      modelViewerTransform.scale = `${width} ${height} ${z}`;
-    // };
-    //   updateScale();
+      arModelViewer.current.scale = `${width} ${height} ${z}`;
+
     
   };
 
@@ -569,6 +575,7 @@ function Products(props) {
               
                 </Col> */}
             <model-viewer
+              ref={arModelViewer}
               src={modelUrl}
               id="arModel"
               camera-controls
@@ -655,7 +662,7 @@ function Products(props) {
                                             {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
                                             <RangeSlider
                                               value={value}
-                                              step={0.1}
+                                              step={0.01}
                                               onChange={(e) =>{
                                                 updateModelSize(e,'width');
                                               }}
@@ -673,7 +680,7 @@ function Products(props) {
                                             {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
                                             <RangeSlider
                                               value={heightValue}
-                                              step={0.1}
+                                              step={0.01}
                                               onChange={(e) => {
                                                 updateModelSize(e,'height');
                                               }}
@@ -687,7 +694,7 @@ function Products(props) {
                                       </Row>
                                     </div>
                                     <div className="size-pane-right">
-                                      <button className="size-refresh">
+                                      <button className="size-refresh" onClick={updateModelSize(null, 'both')}>
                                         <img
                                           src="/assets/images/rotate-left.svg"
                                           alt="refresh"
