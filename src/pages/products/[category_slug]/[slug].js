@@ -118,8 +118,8 @@ function Products(props) {
   const { tabProps, productsList, productObject, category_slug, slug } = props;
   const androidObjectPath =
     productObject?.COMPONENT[0]?.PARENT?.CHILD[0]?.OBJ_PATH_ANDROID;
-  const [value, setWidthValue] = useState(25);
-  const [heightValue, setHeightValue] = useState(25);
+  const [value, setWidthValue] = useState(1);
+  const [heightValue, setHeightValue] = useState(1);
   const [mainProduct, setMainProduct] = useState([]);
   const [productImages, setProductImages] = useState([]);
   const [currentProduct, setCurrentProduct] = useState("");
@@ -134,19 +134,29 @@ function Products(props) {
 
   const handleClose = () => setShow(false);
   //   const handleShow = () => setShow(true);
-  const updateModelSize = () => {
-    let z = 1;
+  const updateModelSize = (e, type) => {
+     let width = value;
+     let height = heightValue;
+    if(type == 'width'){
+      width = e.target.value;
+      setWidthValue(e.target.value);
+    } else {
+      height = e.target.value;
+      setHeightValue(e.target.value);
+    }
+    let z = 2;
     const modelViewerTransform = document.querySelector("model-viewer#arModel");
+    console.log(modelViewerTransform.scale)
     const frame = document.querySelector("#frame");
     if (modelViewerTransform) {
       modelViewerTransform.updateFraming();
     }
-    const updateScale = () => {
-      modelViewerTransform.scale = `${xVal} ${yVal} ${z}`;
-    };
-    if (frame) {
-      updateScale();
-    }
+    // const updateScale = () => {
+      // x axis then y axis
+      modelViewerTransform.scale = `${width} ${height} ${z}`;
+    // };
+    //   updateScale();
+    
   };
 
   const handleShow = (value) => {
@@ -176,7 +186,7 @@ function Products(props) {
   const changeTexture = (event) => {
     const modelViewerTexture = document.querySelector("model-viewer#arModel");
     console.log(modelViewerTexture);
-    createAndApplyTexture("baseColorTexture", event.target.value);
+    createAndApplyTexture("baseColorTexture", event);
   };
 
   const createAndApplyTexture = async (channel, value) => {
@@ -216,6 +226,7 @@ function Products(props) {
     setMainProduct(productsList?.MATERIAL[0][index]);
   };
   const findColorImage = (color) => {
+    changeTexture(color.path);
     let data = mainProduct?.gallery.find(
       (item) => +item?.SLI_SII_CODE === color?.id
     );
@@ -559,7 +570,7 @@ function Products(props) {
                 </Col> */}
             <model-viewer
               src={modelUrl}
-              id="transform"
+              id="arModel"
               camera-controls
               // ar-placement="wall"
               // touch-action="none"
@@ -644,9 +655,10 @@ function Products(props) {
                                             {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
                                             <RangeSlider
                                               value={value}
-                                              onChange={(e) =>
-                                                setWidthValue(e.target.value)
-                                              }
+                                              step={0.1}
+                                              onChange={(e) =>{
+                                                updateModelSize(e,'width');
+                                              }}
                                               tooltipLabel={(currentValue) =>
                                                 `${currentValue} cm`
                                               }
@@ -661,9 +673,10 @@ function Products(props) {
                                             {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
                                             <RangeSlider
                                               value={heightValue}
-                                              onChange={(e) =>
-                                                setHeightValue(e.target.value)
-                                              }
+                                              step={0.1}
+                                              onChange={(e) => {
+                                                updateModelSize(e,'height');
+                                              }}
                                               tooltipLabel={(currentValue) =>
                                                 `${currentValue} cm`
                                               }
