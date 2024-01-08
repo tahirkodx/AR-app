@@ -1,55 +1,90 @@
-import React, { useRef, useEffect } from 'react';
-import { Button, Box, Image, useColorModeValue as mode, } from '@chakra-ui/react';
+import React, { useRef, useState } from "react";
+import {
+  Button,
+  Modal,
+  Image,
+  useColorModeValue as mode,
+} from "@chakra-ui/react";
 
-
-const ARCard1 = ({ styles }) => {
-
+const ARCustom = () => {
   const arButton = useRef({});
+
+  const [modelUrl, setModelUrl] = useState("");
+  const [loadModelAR, setLoadModelAR] = useState("");
+
+  const [xVal, setX] = useState(1);
+  const [yVal, setY] = useState(1);
+
+  // model set
   const [show, setShow] = useState(false);
 
-  
   const handleShow = (value) => {
-    console.log(value)
-    if(value == 'iphone'){
-      setModelUrl('https://uatapi.sedarglobal.com/uploads/100001/obj/ios/Update_RB_LRM_IO.usdz');
-      setLoadModelAR(value)
-    }else{
-      setModelUrl('https://uatapi.sedarglobal.com/uploads/100001/obj/android/Update_CS_LRM_Louvo_011.glb');
-      setLoadModelAR(value)
+    console.log(value);
+    if (value == "iphone") {
+      setModelUrl(
+        "https://uatapi.sedarglobal.com/uploads/100001/obj/ios/Update_RB_LRM_IO.usdz"
+      );
+      setLoadModelAR(value);
+    } else {
+      setModelUrl(
+        "https://uatapi.sedarglobal.com/uploads/100001/obj/android/Update_CS_LRM_Louvo_011.glb"
+      );
+      setLoadModelAR(value);
     }
-    setShow(true)
-    const modelViewerTexture = document.querySelector("model-viewer#arModel");
-    console.log(modelViewerTexture)
+    setShow(true);
+    // const modelViewerTexture = document.querySelector("model-viewer#arModel");
+    // console.log(modelViewerTexture)
     // modelViewerTexture.addEventListener("load", () => {
-        //   // Check for AR support and handle accordingly
-        //   if (modelViewerTexture.canActivateAR) {
-            //     // Enable AR
-            //     modelViewerTexture.activateAR();
-            //   }
-            // });
-        }
-    const changeTexture = event => {
-          const modelViewerTexture = document.querySelector("model-viewer#arModel");
-          console.log(modelViewerTexture);
-    createAndApplyTexture("baseColorTexture", event.target.value);
-    
+    //   // Check for AR support and handle accordingly
+    //   if (modelViewerTexture.canActivateAR) {
+    //     // Enable AR
+    //     modelViewerTexture.activateAR();
+    //   }
+    // });
   };
-  
-      const createAndApplyTexture = async (channel, value) => {
-        const modelViewerTexture = document.querySelector("model-viewer#arModel");
-        const material = modelViewerTexture.model.materials[0];
-        const texture = await modelViewerTexture.createTexture(value);
-        if (channel.includes("base") || channel.includes("metallic")) {
-          material.pbrMetallicRoughness[channel].setTexture(texture);
-        } else {
-          material[channel].setTexture(texture);
-        }
-      };
 
+  const changeTexture = (event) => {
+    const modelViewerTexture = document.querySelector("model-viewer#arModel");
+    console.log(modelViewerTexture);
+    createAndApplyTexture("baseColorTexture", event.target.value);
+  };
 
-      
+  const createAndApplyTexture = async (channel, value) => {
+    const modelViewerTexture = document.querySelector("model-viewer#arModel");
+    const material = modelViewerTexture.model.materials[0];
+    const texture = await modelViewerTexture.createTexture(value);
+    if (channel.includes("base") || channel.includes("metallic")) {
+      material.pbrMetallicRoughness[channel].setTexture(texture);
+    } else {
+      material[channel].setTexture(texture);
+    }
+  };
+  const updateModelSize = () => {
+    let z = 1;
+    const modelViewerTransform = document.querySelector("model-viewer#arModel");
+    const frame = document.querySelector("#frame");
+    if (modelViewerTransform) {
+      modelViewerTransform.updateFraming();
+    }
+    const updateScale = () => {
+      modelViewerTransform.scale = `${xVal} ${yVal} ${z}`;
+    };
+    if (frame) {
+      updateScale();
+    }
+  };
+
+  const handleClose = () => setShow(false);
   return (
-    <Modal show={show} onHide={handleClose}
+    <>
+      <span
+        onClick={(e) => handleShow("android")}
+        className="text-link ar_tour_view"
+      >
+        AR View
+      </span>
+      {/* model */}
+      <Modal show={show} onHide={handleClose}
       size="lg"
       aria-labelledby="example-modal-sizes-title-lg"
       >
@@ -76,10 +111,7 @@ const ARCard1 = ({ styles }) => {
               alt="A 3D model of a arModel"
               style={{ width: '100%', height: '400px' }}
             >
-              <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; top: 16px; right: 16px; ">
-                  👋 Activate AR
-              </button>
-              <div className="controls" style={{marginTop: "250px"}}>
+              <div className="controls" style={{marginTop: "300px"}}>
               <p>Textures</p>
                 <select className="form-select" id="normals2" onChange={changeTexture}>
                   <option>None</option>
@@ -125,25 +157,26 @@ const ARCard1 = ({ styles }) => {
           </Button> */}
         </Modal.Footer>
       </Modal>
+    </>
   );
 };
 
-export default ARCard1;
+export default ARCustom;
 
-ARCard1.defaultProps = {
-  glbLink: '../assets/Roller2.glb',
-  usdzLink: '../assets/RB.usdz',
+ARCustom.defaultProps = {
+  glbLink: "../assets/Roller2.glb",
+  usdzLink: "../assets/RB.usdz",
   // img: '../assets/Roller.jpg',
-  loading: 'eager',
-  reveal: 'auto',
+  loading: "eager",
+  reveal: "auto",
   autoRotate: false,
   cameraControls: true,
-  shadowIntensity: '1',
-  shadowSoftness: '0',
-  exposure: '2',
+  shadowIntensity: "1",
+  shadowSoftness: "0",
+  exposure: "2",
   ar: true,
-  arModes: 'webxr scene-viewer quick-look',
-  arScale: 'auto',
-  arPlacement: 'wall',
-  alt: 'A 3D model'
+  arModes: "webxr scene-viewer quick-look",
+  arScale: "auto",
+  arPlacement: "wall",
+  alt: "A 3D model",
 };
