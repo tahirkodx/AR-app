@@ -125,67 +125,70 @@ function Products(props) {
   const [currentProduct, setCurrentProduct] = useState("");
   const [currentColor, setCurrentColor] = useState("");
   const [colorList, setColorList] = useState([]);
-  const [modelUrl, setModelUrl] = useState("")
-  const [loadModelAR, setLoadModelAR] = useState("")
+  const [modelUrl, setModelUrl] = useState("");
+  const [loadModelAR, setLoadModelAR] = useState("");
   const [xVal, setX] = useState(1);
   const [yVal, setY] = useState(1);
   // model set
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-//   const handleShow = () => setShow(true);
+  //   const handleShow = () => setShow(true);
   const updateModelSize = () => {
-    let z = 1
+    let z = 1;
     const modelViewerTransform = document.querySelector("model-viewer#arModel");
-    const frame = document.querySelector('#frame');
+    const frame = document.querySelector("#frame");
     if (modelViewerTransform) {
       modelViewerTransform.updateFraming();
     }
     const updateScale = () => {
       modelViewerTransform.scale = `${xVal} ${yVal} ${z}`;
     };
-    if(frame){
+    if (frame) {
       updateScale();
     }
-  }
-  
-  const handleShow = (value) => {
-    console.log(value)
-    if(value == 'iphone'){
-      setModelUrl('https://uatapi.sedarglobal.com/uploads/100001/obj/ios/Update_RB_LRM_IO.usdz');
-      setLoadModelAR(value)
-    }else{
-      setModelUrl('https://uatapi.sedarglobal.com/uploads/100001/obj/android/Update_CS_LRM_Louvo_011.glb');
-      setLoadModelAR(value)
-    }
-    setShow(true)
-    const modelViewerTexture = document.querySelector("model-viewer#arModel");
-    console.log(modelViewerTexture)
-    // modelViewerTexture.addEventListener("load", () => {
-        //   // Check for AR support and handle accordingly
-        //   if (modelViewerTexture.canActivateAR) {
-            //     // Enable AR
-            //     modelViewerTexture.activateAR();
-            //   }
-            // });
-        }
-    const changeTexture = event => {
-          const modelViewerTexture = document.querySelector("model-viewer#arModel");
-          console.log(modelViewerTexture);
-    createAndApplyTexture("baseColorTexture", event.target.value);
-    
   };
-  
-      const createAndApplyTexture = async (channel, value) => {
-        const modelViewerTexture = document.querySelector("model-viewer#arModel");
-        const material = modelViewerTexture.model.materials[0];
-        const texture = await modelViewerTexture.createTexture(value);
-        if (channel.includes("base") || channel.includes("metallic")) {
-          material.pbrMetallicRoughness[channel].setTexture(texture);
-        } else {
-          material[channel].setTexture(texture);
-        }
-      };
+
+  const handleShow = (value) => {
+    console.log(value);
+    if (value == "iphone") {
+      setModelUrl(
+        "https://uatapi.sedarglobal.com/uploads/100001/obj/ios/Update_RB_LRM_IO.usdz"
+      );
+      setLoadModelAR(value);
+    } else {
+      setModelUrl(
+        "https://uatapi.sedarglobal.com/uploads/100001/obj/android/Update_CS_LRM_Louvo_011.glb"
+      );
+      setLoadModelAR(value);
+    }
+    setShow(true);
+    const modelViewerTexture = document.querySelector("model-viewer#arModel");
+    console.log(modelViewerTexture);
+    // modelViewerTexture.addEventListener("load", () => {
+    //   // Check for AR support and handle accordingly
+    //   if (modelViewerTexture.canActivateAR) {
+    //     // Enable AR
+    //     modelViewerTexture.activateAR();
+    //   }
+    // });
+  };
+  const changeTexture = (event) => {
+    const modelViewerTexture = document.querySelector("model-viewer#arModel");
+    console.log(modelViewerTexture);
+    createAndApplyTexture("baseColorTexture", event.target.value);
+  };
+
+  const createAndApplyTexture = async (channel, value) => {
+    const modelViewerTexture = document.querySelector("model-viewer#arModel");
+    const material = modelViewerTexture.model.materials[0];
+    const texture = await modelViewerTexture.createTexture(value);
+    if (channel.includes("base") || channel.includes("metallic")) {
+      material.pbrMetallicRoughness[channel].setTexture(texture);
+    } else {
+      material[channel].setTexture(texture);
+    }
+  };
 
   useEffect(() => {
     let list = [];
@@ -237,8 +240,12 @@ function Products(props) {
                     {/* <Button variant="primary" onClick={handleShow}>
                       Launch demo modal
                     </Button> */}
-                    <span onClick={e => handleShow('android')} className="text-link ar_tour_view">AR View</span>
-                    
+                    <span
+                      onClick={(e) => handleShow("android")}
+                      className="text-link ar_tour_view"
+                    >
+                      AR View
+                    </span>
                   </div>
                   {/* <div className="item-img-code">
                     
@@ -536,16 +543,18 @@ function Products(props) {
         </div>
       </div>
       {/* model */}
-      <Modal show={show} onHide={handleClose}
-      size="lg"
-      aria-labelledby="example-modal-sizes-title-lg"
+      <Modal
+        show={show}
+        onHide={handleClose}
+        size="lg"
+        aria-labelledby="example-modal-sizes-title-lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title id="example-modal-sizes-title-lg" >AR Model</Modal.Title>
+          <Modal.Title id="example-modal-sizes-title-lg">AR Model</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div >
-          {/* <Col lg={12} md={12} sm={12} xs={12}>
+          <div>
+            {/* <Col lg={12} md={12} sm={12} xs={12}>
               
                 </Col> */}
             <model-viewer
@@ -556,151 +565,130 @@ function Products(props) {
               // touch-action="none"
               // touch-action="pan-y"
               ar
-              orientation="0 0 0" 
+              orientation="0 0 0"
               shadow-intensity="1"
               interaction-prompt-style
-              
               alt="A 3D model of a arModel"
-              style={{ width: '100%', height: '900px' }}
+              style={{ width: "100%", height: "900px" }}
             >
-              <div className="controls" style={{marginTop: "200px"}}>
-              <div className="select-product-middle">
-        <div className="select-product-inner">
-          <div className="select-product-bottom">
-            <div className="product-bottom-content">
-              <Tab.Container id="left-tabs-example" defaultActiveKey="product">
-                <Row>
-                  <Col sm={12} className="bottom-border">
-                    <Nav className="product-bottom-tab">
-                      <Nav.Item>
-                        <Nav.Link eventKey="product">Material</Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link eventKey="color">Color</Nav.Link>
-                      </Nav.Item>
-                      {/* <Nav.Item>
+              <Button
+                slot="ar-button"
+                style={{backgroundColor: 'white', borderRadius: '4px', border: 'none', display: 'block !important', color: 'black', position: 'absolute', top: '16px', right: '16px' }}
+              >
+                👋 Activate AR
+              </Button>
+              <div className="controls" style={{ marginTop: "200px" }}>
+                <div className="select-product-middle">
+                  <div className="select-product-inner">
+                    <div className="select-product-bottom">
+                      <div className="product-bottom-content">
+                        <Tab.Container
+                          id="left-tabs-example"
+                          defaultActiveKey="color"
+                        >
+                          <Row>
+                            <Col sm={12} className="bottom-border">
+                              <Nav className="product-bottom-tab">
+                                <Nav.Item>
+                                  <Nav.Link eventKey="color">Color</Nav.Link>
+                                </Nav.Item>
+                                {/* <Nav.Item>
                                                 <Nav.Link eventKey="material">Material</Nav.Link>
                                             </Nav.Item> */}
-                      <Nav.Item>
-                        <Nav.Link eventKey="size">Size</Nav.Link>
-                      </Nav.Item>
-                    </Nav>
-                  </Col>
-                  <Col sm={12} className="bottom-border">
-                    <Tab.Content className="product-tab-content">
-                      <Tab.Pane eventKey="product">
-                        <div className="tab-product-list">
-                          <Swiper className="tab-product-slider" {...tabProps}>
-                            {productImages?.map((prod, index) => (
-                              <SwiperSlide key={prod?.SLI_SII_CODE}>
-                                <div
-                                  className={`tab-product-item ${
-                                    prod.SLI_SII_CODE ===
-                                    currentProduct?.SLI_SII_CODE
-                                      ? "tab-product-active"
-                                      : ""
-                                  }`}
-                                  onClick={() =>
-                                    handleChangeProduct(prod, index)
-                                  }
-                                >
-                                  <div className="tab-product-img">
-                                    <img
-                                      src={prod?.SLI_IMAGE_PATH}
-                                      alt="product"
-                                    />
+                                <Nav.Item>
+                                  <Nav.Link eventKey="size">Size</Nav.Link>
+                                </Nav.Item>
+                              </Nav>
+                            </Col>
+                            <Col sm={12} className="bottom-border">
+                              <Tab.Content className="product-tab-content">
+                                <Tab.Pane eventKey="color">
+                                  <div className="color-pane-inner">
+                                    <Swiper
+                                      className="product-color-slider"
+                                      {...tabProps}
+                                    >
+                                      {colorList?.map((color, index) => (
+                                        <SwiperSlide key={color?.id}>
+                                          <div
+                                            className={`product-color-item ${
+                                              currentColor?.id === color?.id
+                                                ? "active"
+                                                : ""
+                                            }`}
+                                            onClick={() =>
+                                              findColorImage(color)
+                                            }
+                                          >
+                                            {/* <span style={{ backgroundColor: "#4D111C" }} /> */}
+                                            <Image
+                                              src={color?.path}
+                                              alt="color"
+                                              height={48}
+                                              width={48}
+                                            />
+                                          </div>
+                                        </SwiperSlide>
+                                      ))}
+                                    </Swiper>
                                   </div>
-                                </div>
-                              </SwiperSlide>
-                            ))}
-                          </Swiper>
-                        </div>
-                      </Tab.Pane>
-                      <Tab.Pane eventKey="color">
-                        <div className="color-pane-inner">
-                          <Swiper
-                            className="product-color-slider"
-                            {...tabProps}
-                          >
-                            {colorList?.map((color, index) => (
-                              <SwiperSlide key={color?.id}>
-                                <div
-                                  className={`product-color-item ${
-                                    currentColor?.id === color?.id
-                                      ? "active"
-                                      : ""
-                                  }`}
-                                  onClick={() => findColorImage(color)}
-                                >
-                                  {/* <span style={{ backgroundColor: "#4D111C" }} /> */}
-                                  <Image
-                                    src={color?.path}
-                                    alt="color"
-                                    height={48}
-                                    width={48}
-                                  />
-                                </div>
-                              </SwiperSlide>
-                            ))}
-                          </Swiper>
-                        </div>
-                      </Tab.Pane>
-                      <Tab.Pane eventKey="size">
-                        <div className="size-pane-inner">
-                          <div className="size-pane-left">
-                            <Row>
-                              <Col lg={6} md={6} sm={6} xs={6}>
-                                <div className="size-slider">
-                                  <p className="size-label">Width</p>
-                                  {/* <Form.Range /> */}
-                                  {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
-                                  <RangeSlider
-                                    value={value}
-                                    onChange={(e) =>
-                                      setWidthValue(e.target.value)
-                                    }
-                                    tooltipLabel={(currentValue) =>
-                                      `${currentValue} cm`
-                                    }
-                                    tooltip="on"
-                                  />
-                                </div>
-                              </Col>
-                              <Col lg={6} md={6} sm={6} xs={6}>
-                                <div className="size-slider">
-                                  <p className="size-label">Height</p>
-                                  {/* <Form.Range /> */}
-                                  {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
-                                  <RangeSlider
-                                    value={heightValue}
-                                    onChange={(e) =>
-                                      setHeightValue(e.target.value)
-                                    }
-                                    tooltipLabel={(currentValue) =>
-                                      `${currentValue} cm`
-                                    }
-                                    tooltip="on"
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                          </div>
-                          <div className="size-pane-right">
-                            <button className="size-refresh">
-                              <img
-                                src="/assets/images/rotate-left.svg"
-                                alt="refresh"
-                              />
-                            </button>
-                          </div>
-                        </div>
-                      </Tab.Pane>
-                    </Tab.Content>
-                  </Col>
-                </Row>
-              </Tab.Container>
-            </div>
-            {/* <div className="product-fotter-section">
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="size">
+                                  <div className="size-pane-inner">
+                                    <div className="size-pane-left">
+                                      <Row>
+                                        <Col lg={6} md={6} sm={6} xs={6}>
+                                          <div className="size-slider">
+                                            <p className="size-label">Width</p>
+                                            {/* <Form.Range /> */}
+                                            {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
+                                            <RangeSlider
+                                              value={value}
+                                              onChange={(e) =>
+                                                setWidthValue(e.target.value)
+                                              }
+                                              tooltipLabel={(currentValue) =>
+                                                `${currentValue} cm`
+                                              }
+                                              tooltip="on"
+                                            />
+                                          </div>
+                                        </Col>
+                                        <Col lg={6} md={6} sm={6} xs={6}>
+                                          <div className="size-slider">
+                                            <p className="size-label">Height</p>
+                                            {/* <Form.Range /> */}
+                                            {/* <RangeSlider variant="primary" value={value} onChange={e => setWidthValue(+e.target.value)} min={minLimit} max={maxLimit}></RangeSlider> */}
+                                            <RangeSlider
+                                              value={heightValue}
+                                              onChange={(e) =>
+                                                setHeightValue(e.target.value)
+                                              }
+                                              tooltipLabel={(currentValue) =>
+                                                `${currentValue} cm`
+                                              }
+                                              tooltip="on"
+                                            />
+                                          </div>
+                                        </Col>
+                                      </Row>
+                                    </div>
+                                    <div className="size-pane-right">
+                                      <button className="size-refresh">
+                                        <img
+                                          src="/assets/images/rotate-left.svg"
+                                          alt="refresh"
+                                        />
+                                      </button>
+                                    </div>
+                                  </div>
+                                </Tab.Pane>
+                              </Tab.Content>
+                            </Col>
+                          </Row>
+                        </Tab.Container>
+                      </div>
+                      {/* <div className="product-fotter-section">
               <div className="product-addcart-btn">
                 <Link href="#" className="btn btn-primary w-sm-100">
                   Add to Cart - USD 200.00
@@ -712,10 +700,10 @@ function Products(props) {
                 </Link>
               </div>
             </div> */}
-          </div>
-        </div>
-      </div>
-              {/* <p>Textures</p>
+                    </div>
+                  </div>
+                </div>
+                {/* <p>Textures</p>
                 <select className="form-select" id="normals2" onChange={changeTexture}>
                   <option>None</option>
                   <option value="https://uatapi.sedarglobal.com/uploads/100001/item/customize/1671627645_f8f322dc568482793da5.jpg">texture1</option>
@@ -745,8 +733,6 @@ function Products(props) {
                 <div className="item-img-code">
                     <span id="frame" onClick={updateModelSize} className="text-link ar_tour_view btn btn-primary w-sm-100">Update Size</span>
                 </div> */}
-
-        
               </div>
             </model-viewer>
           </div>
