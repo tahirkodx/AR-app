@@ -550,18 +550,20 @@ function Products(props) {
                 </Col> */}
             <model-viewer
               src={modelUrl}
-              id="arModel"
+              id="transform"
               camera-controls
               ar-placement="wall"
-              touch-action="none"
+              // touch-action="none"
+              // touch-action="pan-y"
               ar
-              orientation="0 0 0" shadow-intensity="1"
+              orientation="20deg 0 0" 
+              shadow-intensity="1"
               interaction-prompt-style
               
               alt="A 3D model of a arModel"
               style={{ width: '100%', height: '400px' }}
             >
-              <div className="controls" style={{marginTop: "10px"}}>
+              <div className="controls" style={{marginTop: "300px"}}>
               <p>Textures</p>
                 <select className="form-select" id="normals2" onChange={changeTexture}>
                   <option>None</option>
