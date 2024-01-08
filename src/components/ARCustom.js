@@ -101,9 +101,9 @@ const ARCustom = ({ show, tabProps, colorList, value, heightValue, currentColor 
       </span> */}
       {/* model */}
       {/* {!show ? "" : ( */}
-      <div className="hidden" style={{display: 'none'}}>
+      <div className="hidden">
             {/* <Col lg={12} md={12} sm={12} xs={12}>
-              
+              <ARCustom show={show} tabProps={tabProps} colorList={colorList} value={value} heightValue={heightValue} currentColor={currentColor}/>
                 </Col> */}
             <model-viewer
               src={modelUrl}
@@ -117,7 +117,7 @@ const ARCustom = ({ show, tabProps, colorList, value, heightValue, currentColor 
               shadow-intensity="1"
               interaction-prompt-style
               alt="A 3D model of a arModel"
-              style={{ width: "100%", height: "900px" }}
+              style={{ width: "400px", height: "400px" }}
             >
               <Button
                 slot="ar-button"
