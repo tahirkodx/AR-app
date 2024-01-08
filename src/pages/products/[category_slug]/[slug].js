@@ -563,7 +563,7 @@ function Products(props) {
               alt="A 3D model of a arModel"
               style={{ width: '100%', height: '400px' }}
             >
-              <div className="controls" style={{marginTop: "300px"}}>
+              <div className="controls" style={{marginTop: "280px"}}>
               <p>Textures</p>
                 <select className="form-select" id="normals2" onChange={changeTexture}>
                   <option>None</option>
