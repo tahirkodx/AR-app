@@ -561,7 +561,7 @@ function Products(props) {
               src={modelUrl}
               id="transform"
               camera-controls
-              ar-placement="wall"
+              // ar-placement="wall"
               // touch-action="none"
               // touch-action="pan-y"
               ar
